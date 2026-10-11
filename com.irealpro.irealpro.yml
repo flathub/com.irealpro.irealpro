@@ -46,8 +46,8 @@ modules:
         filename: irealpro.rpm
         only-arches: [x86_64]
         url: https://linux.irealpro.com/irealpro-latest.x86_64.rpm
-        sha256: fc44a3519a02698333984e457f58533344624bf7bb116d8eb03c06ba2d053a50
-        size: 209296985
+        sha256: a6fc11cb53f1aeabfed80d51cb92642ae0e783cefd69784b743e08c500b4c64a
+        size: 211869671
         x-checker-data:
           type: rotating-url
           url: https://linux.irealpro.com/irealpro-latest.x86_64.rpm
@@ -55,8 +55,8 @@ modules:
         filename: irealpro.rpm
         only-arches: [aarch64]
         url: https://linux.irealpro.com/irealpro-latest.aarch64.rpm
-        sha256: 2260a77472f436d4f58fbfabcede529be08407c1cc028f051c5375ed34b321f6
-        size: 203409905
+        sha256: 7b0e14ca22c9408fbc30d2b70798673eea575878602fbc1d6be16ebb683259fd
+        size: 205724059
         x-checker-data:
           type: rotating-url
           url: https://linux.irealpro.com/irealpro-latest.aarch64.rpm
