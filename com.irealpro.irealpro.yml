@@ -17,18 +17,11 @@ modules:
   - name: irealpro
     buildsystem: simple
     build-commands:
-      # 1. Install Desktop file, Icon and AppStream MetaInfo from module sources.
-      #    These must exist before apply_extra runs so appstream-compose can
-      #    generate catalogue data at install time (extra-data is downloaded
-      #    on install, not at build time).
       - install -Dm644 com.irealpro.irealpro.desktop /app/share/applications/com.irealpro.irealpro.desktop
       - install -Dm644 irealpro.png /app/share/icons/hicolor/512x512/apps/com.irealpro.irealpro.png
       - install -Dm644 com.irealpro.irealpro.metainfo.xml /app/share/metainfo/com.irealpro.irealpro.metainfo.xml
-
-      # 2. Install the apply_extra script that unpacks the RPM at install time.
       - install -Dm755 apply_extra /app/bin/apply_extra
 
-      # 3. Create a wrapper script for the main executable in /app/bin
       - mkdir -p /app/bin
       - |
         cat << 'EOF' > /app/bin/irealpro
@@ -40,26 +33,26 @@ modules:
       - chmod +x /app/bin/irealpro
 
     sources:
-      # Non-redistributable proprietary RPM: fetched at install time (not
+      # Non-redistributable proprietary .deb: fetched at install time (not
       # bundled at build time) per Flathub's licensing requirements.
       - type: extra-data
-        filename: irealpro.rpm
+        filename: irealpro.deb
         only-arches: [x86_64]
-        url: https://linux.irealpro.com/irealpro-latest.x86_64.rpm
-        sha256: 9fc6e6be2cc001d26c4955466b6270ce486d8f83cf079fc5e414319e1c63c6fd
-        size: 211871031
+        url: https://linux.irealpro.com/irealpro_latest_amd64.deb
+        sha256: 1eb4b5a17cad0a33957539c9e9caa86872c229f9675ea5a4b7b20001c03bfd1a
+        size: 232845200
         x-checker-data:
           type: rotating-url
-          url: https://linux.irealpro.com/irealpro-latest.x86_64.rpm
+          url: https://linux.irealpro.com/irealpro_latest_amd64.deb
       - type: extra-data
-        filename: irealpro.rpm
+        filename: irealpro.deb
         only-arches: [aarch64]
-        url: https://linux.irealpro.com/irealpro-latest.aarch64.rpm
-        sha256: fa0daa52fc0b9e1673a5532bc34f0d2a16109396b0a388006ffb840bfffc5283
-        size: 205739711
+        url: https://linux.irealpro.com/irealpro_latest_arm64.deb
+        sha256: 083dc1755c28bc0368229f5babaf477bcce50f802045c57c327d7c96417cf1c1
+        size: 227910872
         x-checker-data:
           type: rotating-url
-          url: https://linux.irealpro.com/irealpro-latest.aarch64.rpm
+          url: https://linux.irealpro.com/irealpro_latest_arm64.deb
       - type: file
         path: com.irealpro.irealpro.desktop
       - type: file
@@ -69,7 +62,7 @@ modules:
       - type: script
         dest-filename: apply_extra
         commands:
-          # bsdtar reads the RPM's cpio payload directly, no rpm2cpio needed.
-          - bsdtar -xf irealpro.rpm ./opt/iRealPro
+          - bsdtar -xf irealpro.deb data.tar.xz
+          - bsdtar -xf data.tar.xz ./opt/iRealPro
           - mv opt/iRealPro iRealPro
-          - rm -rf opt irealpro.rpm
+          - rm -rf opt irealpro.deb data.tar.xz
